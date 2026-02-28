@@ -128,6 +128,7 @@ class GreetingCard {
         // Убираем уведомление через 3 секунды
         setTimeout(() => {
             notification.remove();
+            window.location.href = "https://t.me/bachata_orsk";
         }, 3000);
 
         // Лёгкий "bounce" для всех карточек
