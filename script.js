@@ -35,7 +35,7 @@ class GreetingCard {
             const photoIndex = i + 1;
 
             const cleanImg = document.createElement('img');
-            cleanImg.src = `photos/clean/${photoIndex}.jpg`;
+            cleanImg.src = `photos/clean/${photoIndex}.webp`;
 
             const letterImg = document.createElement('img');
 
@@ -63,7 +63,7 @@ class GreetingCard {
         const cycleFolder = this.currentCycle === 1 ? 'cycle1' : 'cycle2';
 
         const backImg = item.querySelector('.card-back img');
-        backImg.src = `photos/${cycleFolder}/${photoIndex}.jpg`;
+        backImg.src = `photos/${cycleFolder}/${photoIndex}.webp`;
 
         item.classList.add('flipped');
 
