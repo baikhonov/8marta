@@ -9,6 +9,7 @@ class GreetingCard {
 
         this.grid = document.getElementById('grid');
         this.resetBtn = document.getElementById('resetBtn');
+        this.thanksBtn = document.getElementById('thanksBtn');
 
         this.init();
     }
@@ -17,6 +18,7 @@ class GreetingCard {
         this.createGrid();
         this.loadCleanImages();
         this.resetBtn.addEventListener('click', () => this.reset());
+        this.thanksBtn.addEventListener('click', () => this.thanks());
 
     }
 
@@ -176,7 +178,7 @@ class GreetingCard {
 
         setTimeout(() => {
             notification.remove();
-            this.showResetButton();
+            this.showThanksButton();
             // setTimeout(() => {
             //     window.location.href = "https://t.me/bachata_orsk";
             // }, 2000);
@@ -197,6 +199,12 @@ class GreetingCard {
         this.resetBtn.classList.add('show');
     }
 
+    // Метод для показа кнопки
+    showThanksButton() {
+        debugger
+        this.thanksBtn.classList.add('show');
+    }
+
     reset() {
         // Очищаем все таймеры
         if (this.notificationTimeout) {
@@ -212,6 +220,10 @@ class GreetingCard {
         this.loadCleanImages();
         this.grid.style.pointerEvents = 'auto';
 
+    }
+
+    thanks() {
+        window.location.href = "https://t.me/bachata_orsk";
     }
 }
 
