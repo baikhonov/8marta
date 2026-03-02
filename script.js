@@ -18,8 +18,6 @@ class GreetingCard {
         this.loadCleanImages();
         this.resetBtn.addEventListener('click', () => this.reset());
 
-        // Скрываем кнопку при инициализации (на всякий случай)
-        this.hideResetButton();
     }
 
     createGrid() {
@@ -214,8 +212,6 @@ class GreetingCard {
         this.loadCleanImages();
         this.grid.style.pointerEvents = 'auto';
 
-        // Скрываем кнопку при сбросе
-        this.hideResetButton();
     }
 }
 
