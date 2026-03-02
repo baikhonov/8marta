@@ -181,7 +181,7 @@ class GreetingCard {
             // setTimeout(() => {
             //     window.location.href = "https://t.me/bachata_orsk";
             // }, 2000);
-        }, 3000);
+        }, 4000);
 
         // // лёгкий bounce всех карточек
         // this.grid.querySelectorAll('.card-inner').forEach(inner => {
