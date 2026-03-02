@@ -1,11 +1,14 @@
 class GreetingCard {
     constructor() {
-        this.sets = ['set1', 'set2']; // наборы фоток
+        this.sets = ['set1', 'set2'];
         this.currentSetIndex = 0;
         this.openedCount = 0;
         this.openedIndices = new Array(9).fill(false);
-        this.isFinished = false; // после второго сета блокируем все действия
-        this.notificationTimeout = null; // для управления таймерами уведомлений
+
+        this.isFinished = false;
+        this.isTransitioning = false;
+        this.finalShown = false;
+        this.notificationTimeout = null;
 
         this.grid = document.getElementById('grid');
         this.resetBtn = document.getElementById('resetBtn');
@@ -19,7 +22,6 @@ class GreetingCard {
         this.loadCleanImages();
         this.resetBtn.addEventListener('click', () => this.reset());
         this.thanksBtn.addEventListener('click', () => this.thanks());
-
     }
 
     createGrid() {
@@ -49,7 +51,6 @@ class GreetingCard {
             item.appendChild(inner);
 
             item.addEventListener('click', () => this.handleClick(i));
-
             this.grid.appendChild(item);
         }
     }
@@ -59,22 +60,23 @@ class GreetingCard {
 
         this.openedCount = 0;
         this.openedIndices = new Array(9).fill(false);
+        this.isTransitioning = false;
+
+        this.grid.style.pointerEvents = 'auto';
 
         for (let i = 0; i < 9; i++) {
             const item = this.grid.children[i];
             const cleanImg = item.querySelector('.card-front img');
             const backImg = item.querySelector('.card-back img');
 
-            // перезаписываем front только если игра не закончена
             if (!this.isFinished) {
                 cleanImg.src = `photos/${setName}/clean/${i + 1}.webp`;
             }
 
-            backImg.src = ''; // очищаем letters
+            backImg.src = '';
             item.classList.remove('flipped');
         }
 
-        // hint-анимация только если игра не закончена
         if (forHint && !this.isFinished) {
             this.grid.querySelectorAll('.grid-item').forEach(item => {
                 item.classList.add('hint');
@@ -83,7 +85,7 @@ class GreetingCard {
     }
 
     handleClick(index) {
-        if (this.isFinished || this.openedIndices[index]) return;
+        if (this.isFinished || this.isTransitioning || this.openedIndices[index]) return;
 
         this.openedIndices[index] = true;
         this.openedCount++;
@@ -94,33 +96,35 @@ class GreetingCard {
 
         backImg.src = `photos/${setName}/letters/${index + 1}.webp`;
 
-        // удаляем hint и переворачиваем
         item.classList.remove('hint');
         item.classList.add('flipped');
 
         if (this.openedCount === 9) {
-            // задержка на прочтение букв
-            setTimeout(() => this.nextSetOrFinish(), 2000);
+            this.isTransitioning = true;
+            this.grid.style.pointerEvents = 'none';
+
+            setTimeout(() => this.nextSetOrFinish(), 1000);
         }
     }
 
     nextSetOrFinish() {
         if (this.currentSetIndex + 1 < this.sets.length) {
-            // Показываем уведомление о втором сете
-            this.showSetNotification();
 
             this.currentSetIndex++;
+            this.showSetNotification();
             this.loadCleanImages();
+
         } else {
+
+            if (this.finalShown) return;   // ключевая защита
+            this.finalShown = true;
+
             this.isFinished = true;
             this.showFinalGreeting();
-            // Показываем кнопку после завершения игры
-
         }
     }
 
     showSetNotification() {
-        // Отменяем предыдущее уведомление, если было
         if (this.notificationTimeout) {
             clearTimeout(this.notificationTimeout);
         }
@@ -141,7 +145,6 @@ class GreetingCard {
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: slideInOut 3s ease;
             border: 2px solid white;
         `;
 
@@ -169,7 +172,6 @@ class GreetingCard {
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: fadeInOut 3s ease;
             border: 2px solid #ffd700;
         `;
 
@@ -178,46 +180,31 @@ class GreetingCard {
         setTimeout(() => {
             notification.remove();
             this.showThanksButton();
-            // setTimeout(() => {
-            //     window.location.href = "https://t.me/bachata_orsk";
-            // }, 2000);
         }, 4000);
-
-        // // лёгкий bounce всех карточек
-        // this.grid.querySelectorAll('.card-inner').forEach(inner => {
-        //     inner.style.transition = 'transform 0.3s ease';
-        //     inner.style.transform = 'scale(1.05)';
-        //     setTimeout(() => inner.style.transform = 'scale(1)', 150);
-        // });
-
-
     }
 
-    // Метод для показа кнопки
     showResetButton() {
         this.resetBtn.classList.add('show');
     }
 
-    // Метод для показа кнопки
     showThanksButton() {
         this.thanksBtn.classList.add('show');
     }
 
     reset() {
-        // Очищаем все таймеры
         if (this.notificationTimeout) {
             clearTimeout(this.notificationTimeout);
             this.notificationTimeout = null;
         }
 
-        // Удаляем все уведомления
         document.querySelectorAll('.cycle-notification').forEach(el => el.remove());
 
         this.isFinished = false;
+        this.isTransitioning = false;
+        this.finalShown = false;
         this.currentSetIndex = 0;
-        this.loadCleanImages();
-        this.grid.style.pointerEvents = 'auto';
 
+        this.loadCleanImages();
     }
 
     thanks() {
