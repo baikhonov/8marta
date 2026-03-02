@@ -100,7 +100,7 @@ class GreetingCard {
 
         if (this.openedCount === 9) {
             // задержка на прочтение букв
-            setTimeout(() => this.nextSetOrFinish(), 4000);
+            setTimeout(() => this.nextSetOrFinish(), 2000);
         }
     }
 
@@ -171,6 +171,7 @@ class GreetingCard {
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: fadeInOut 3s ease;
             border: 2px solid #ffd700;
+            white-space: nowrap;
         `;
 
         document.body.appendChild(notification);
