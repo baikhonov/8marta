@@ -5,6 +5,7 @@ class GreetingCard {
         this.openedCount = 0;
         this.openedIndices = new Array(9).fill(false);
         this.isFinished = false; // после второго сета блокируем все действия
+        this.notificationTimeout = null; // для управления таймерами уведомлений
 
         this.grid = document.getElementById('grid');
         this.resetBtn = document.getElementById('resetBtn');
@@ -16,6 +17,9 @@ class GreetingCard {
         this.createGrid();
         this.loadCleanImages();
         this.resetBtn.addEventListener('click', () => this.reset());
+
+        // Скрываем кнопку при инициализации (на всякий случай)
+        this.hideResetButton();
     }
 
     createGrid() {
@@ -102,18 +106,54 @@ class GreetingCard {
 
     nextSetOrFinish() {
         if (this.currentSetIndex + 1 < this.sets.length) {
+            // Показываем уведомление о втором сете
+            this.showSetNotification();
+
             this.currentSetIndex++;
             this.loadCleanImages();
         } else {
             this.isFinished = true;
             this.showFinalGreeting();
+            // Показываем кнопку после завершения игры
+
         }
     }
 
-    showFinalGreeting() {
-        // отключаем клики по сетке
-        this.grid.style.pointerEvents = 'none';
+    showSetNotification() {
+        // Отменяем предыдущее уведомление, если было
+        if (this.notificationTimeout) {
+            clearTimeout(this.notificationTimeout);
+        }
 
+        const notification = document.createElement('div');
+        notification.className = 'cycle-notification';
+        notification.textContent = 'Это ещё не всё 😉';
+        notification.style.cssText = `
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInOut 3s ease;
+            border: 2px solid white;
+        `;
+
+        document.body.appendChild(notification);
+
+        this.notificationTimeout = setTimeout(() => {
+            notification.remove();
+            this.notificationTimeout = null;
+        }, 2000);
+    }
+
+    showFinalGreeting() {
         const notification = document.createElement('div');
         notification.textContent = '🎉 С 8 марта, девушки! 🎉';
         notification.style.cssText = `
@@ -130,30 +170,51 @@ class GreetingCard {
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: fadeInOut 3s ease;
+            border: 2px solid #ffd700;
         `;
 
         document.body.appendChild(notification);
 
         setTimeout(() => {
             notification.remove();
-            setTimeout(() => {
-                window.location.href = "https://t.me/bachata_orsk";
-            }, 2000);
+            this.showResetButton();
+            // setTimeout(() => {
+            //     window.location.href = "https://t.me/bachata_orsk";
+            // }, 2000);
         }, 3000);
 
-        // лёгкий bounce всех карточек
-        this.grid.querySelectorAll('.card-inner').forEach(inner => {
-            inner.style.transition = 'transform 0.3s ease';
-            inner.style.transform = 'scale(1.05)';
-            setTimeout(() => inner.style.transform = 'scale(1)', 150);
-        });
+        // // лёгкий bounce всех карточек
+        // this.grid.querySelectorAll('.card-inner').forEach(inner => {
+        //     inner.style.transition = 'transform 0.3s ease';
+        //     inner.style.transform = 'scale(1.05)';
+        //     setTimeout(() => inner.style.transform = 'scale(1)', 150);
+        // });
+
+
+    }
+
+    // Метод для показа кнопки
+    showResetButton() {
+        this.resetBtn.classList.add('show');
     }
 
     reset() {
+        // Очищаем все таймеры
+        if (this.notificationTimeout) {
+            clearTimeout(this.notificationTimeout);
+            this.notificationTimeout = null;
+        }
+
+        // Удаляем все уведомления
+        document.querySelectorAll('.cycle-notification').forEach(el => el.remove());
+
         this.isFinished = false;
         this.currentSetIndex = 0;
         this.loadCleanImages();
         this.grid.style.pointerEvents = 'auto';
+
+        // Скрываем кнопку при сбросе
+        this.hideResetButton();
     }
 }
 
