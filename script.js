@@ -171,7 +171,6 @@ class GreetingCard {
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: fadeInOut 3s ease;
             border: 2px solid #ffd700;
-            white-space: nowrap;
         `;
 
         document.body.appendChild(notification);
@@ -201,7 +200,6 @@ class GreetingCard {
 
     // Метод для показа кнопки
     showThanksButton() {
-        debugger
         this.thanksBtn.classList.add('show');
     }
 
