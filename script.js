@@ -134,18 +134,22 @@ class GreetingCard {
         notification.textContent = 'Это ещё не всё 😉';
         notification.style.cssText = `
             position: fixed;
+            width: fit-content;
+            max-width: 420px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
+            padding: 15px;
+            border-radius: 15px;
             font-size: 18px;
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 2px solid white;
+            text-align: center;
+            white-space: nowrap;
         `;
 
         document.body.appendChild(notification);
@@ -158,21 +162,35 @@ class GreetingCard {
 
     showFinalGreeting() {
         const notification = document.createElement('div');
-        notification.textContent = 'Вы у нас самые лучшие! Спасибо за то, что вы есть ❤️';
+        notification.innerHTML = `Все дамы в нашем коллективе,<br>
+                                Как эталоны красоты,<br>
+                                Вы — королевы, вы — богини,<br>
+                                Предел любой мужской мечты!<br><br>
+                                Вас поздравляем с 8-ым Марта<br>
+                                И жить желаем, как в раю!<br>
+                                Пусть чаще дарят вам брильянты<br>
+                                И серенады вам поют,<br><br>
+                                Пускай стихи вам посвящают,<br>
+                                К ногам приносят жемчуга,<br>
+                                Пускай вас любят, обнимают<br>
+                                Сегодня, завтра и всегда! ❤️`;
         notification.style.cssText = `
             position: fixed;
+            width: 90%;
+            max-width: 390px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
+            padding: 15px;
+            border-radius: 15px;
             font-size: 18px;
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 2px solid white;
+            text-align: center;
         `;
 
         document.body.appendChild(notification);
@@ -180,7 +198,7 @@ class GreetingCard {
         setTimeout(() => {
             notification.remove();
             this.showThanksButton();
-        }, 4000);
+        }, 12000);
     }
 
     showResetButton() {
