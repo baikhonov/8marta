@@ -134,7 +134,6 @@ class GreetingCard {
         notification.textContent = 'Это ещё не всё 😉';
         notification.style.cssText = `
             position: fixed;
-            width: 80%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -162,7 +161,6 @@ class GreetingCard {
         notification.textContent = '🎉 С 8 марта, девушки! Приходите на вечеринку, мы вас ждём! 🎉';
         notification.style.cssText = `
             position: fixed;
-            width: 80%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
