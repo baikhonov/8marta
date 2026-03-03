@@ -134,7 +134,8 @@ class GreetingCard {
         notification.textContent = 'Это ещё не всё 😉';
         notification.style.cssText = `
             position: fixed;
-            top: 30%;
+            width: 80%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -161,18 +162,19 @@ class GreetingCard {
         notification.textContent = '🎉 С 8 марта, девушки! Приходите на вечеринку, мы вас ждём! 🎉';
         notification.style.cssText = `
             position: fixed;
+            width: 80%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(212, 78, 108, 0.95);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 20px 30px;
+            padding: 15px 25px;
             border-radius: 50px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 2px solid #ffd700;
+            border: 2px solid white;
         `;
 
         document.body.appendChild(notification);
