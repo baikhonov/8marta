@@ -8,10 +8,16 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: Arial, sans-serif;
   padding: 10px;
+}
+
+@media (max-width: 767px) {
+  body {
+    align-items: flex-start;
+  }
 }
 
 .container {
