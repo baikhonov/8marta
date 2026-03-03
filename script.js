@@ -158,7 +158,7 @@ class GreetingCard {
 
     showFinalGreeting() {
         const notification = document.createElement('div');
-        notification.textContent = '🎉 С 8 марта, девушки! Приходите на вечеринку, мы вас ждём! 🎉';
+        notification.textContent = 'Вы у нас самые лучшие! Спасибо за то, что вы есть ❤️';
         notification.style.cssText = `
             position: fixed;
             top: 50%;
